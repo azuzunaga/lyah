@@ -36,7 +36,6 @@ common base
     -fno-warn-type-defaults
     -ferror-spans
   default-extensions:
-    NoImplicitPrelude
     InstanceSigs
     OverloadedStrings
     ScopedTypeVariables
@@ -60,7 +59,6 @@ common tests
   ghc-options:
     -threaded
   default-extensions:
-    NoImplicitPrelude
     InstanceSigs
     OverloadedStrings
     ScopedTypeVariables
@@ -92,3 +90,5 @@ library
   hs-source-dirs:
     src
   exposed-modules:
+    Lyah
+    Lyah.StartingOut
