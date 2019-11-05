@@ -86,32 +86,9 @@ common apps
     , warp
     , wreq
 
-
 library
   import:
     base
   hs-source-dirs:
     src
   exposed-modules:
-
-test-suite all
-  import: tests
-  type: exitcode-stdio-1.0
-  hs-source-dirs: test
-  main-is: TastyLoader.hs
-
-executable streaming
-  import: base, apps
-  hs-source-dirs: exe/streaming
-  other-modules:
-  ghc-options:
-    -Wall
-    -rtsopts
-    -threaded
-    -fprof-auto
-  main-is: Main.hs
-
-executable webdriver
-  import: tests
-  hs-source-dirs: test
-  main-is: DailyKosTests.hs
