@@ -1,0 +1,20 @@
+:set -isrc
+:set -itest
+:set prompt "lyah> "
+:set -Wall
+:set -fno-warn-unused-binds
+:set -fno-warn-unused-do-bind
+:set -fno-warn-unused-imports
+:set -fno-warn-type-defaults
+:set -XNoImplicitPrelude
+:set -XScopedTypeVariables
+:set -XOverloadedStrings
+:set -XDeriveGeneric
+:set -XKindSignatures
+
+:l src/lyah.hs
+
+import Control.Applicative (pure)
+import Data.Function (($), (.))
+import Data.List ((++))
+:def hoogle \x -> pure $ ":!hoogle --count=10 \"" ++ x ++ "\""
