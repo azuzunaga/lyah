@@ -12,6 +12,7 @@
     - [Tuples](#tuples)
   - [Types and Typeclasses](#types-and-typeclasses)
     - [Types](#types)
+    - [Type Variables](#type-variables)
 
 ## Starting Out
 
@@ -159,7 +160,7 @@ See [this](https://github.com/azuzunaga/lyah/blob/master/src/Lyah/StartingOut.hs
 
 ### Types
 
-Using `:t` on the repl tells you the type of the expression you are evaluating:
+Types are written in capital case. Using `:t` on the repl tells you the type of the expression you are evaluating:
 
 ```hs
 ghci> let addThree x y z = x + y + z
@@ -177,3 +178,14 @@ Some common types:
 - `Double`: Floating point with double precision.
 - `Bool`: Boolean. `True` or `False`.
 - `Char`: Represents a character and is denoted by single quotes. A string is a list of chars (`[Char]`).
+
+### Type Variables
+
+When we take a look at the type of the `head` function we get the following:
+
+```hs
+ghci> :h head
+head :: [a] -> a
+```
+
+`a` is a type variable - meaning it can be of any type. Functions that have type variables are called polymorphic functions. If a function type has more than one type variables it is usually `a`, `b`, `c`, etc., but that doesn't mean that `a` and `b` are different types.
