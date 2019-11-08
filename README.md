@@ -10,6 +10,8 @@
     - [Ranges](#ranges)
     - [List Comprehensions](#list-comprehensions)
     - [Tuples](#tuples)
+  - [Types and Typeclasses](#types-and-typeclasses)
+    - [Types](#types)
 
 ## Starting Out
 
@@ -152,3 +154,26 @@ ghci> noOddsNested [[1,3,5,2,3,1,2,4,5],[1,2,3,4,5,6,7,8,9],[1,2,4,2,1,6,3,1,3,2
 Another useful function is `zip`. It takes to lists and pairs up the elements to produce a new list of tuples. When zipping two lists of different lengths the longer list gets cutoff to the length of the shorter list.
 
 See [this](https://github.com/azuzunaga/lyah/blob/master/src/Lyah/StartingOut.hs#L15-L29) example on solving a problem with list comprehensions and tuples. It is a common pattern in functional programming to start with a set of solutions and narrow it down until you get to where you want to be.
+
+## Types and Typeclasses
+
+### Types
+
+Using `:t` on the repl tells you the type of the expression you are evaluating:
+
+```hs
+ghci> let addThree x y z = x + y + z
+ghci> :t addThree
+addThree :: Num a => a -> a -> a -> a
+```
+
+First is the expression, then the `::` means "type of". Function parameters are separated by `->` and the return type is the last item.
+
+Some common types:
+
+- `Int`: Bounded integer. Max and min vary by processor type, but on a 32-bit machine it is +/- 2147483647 or 2^31 - 1.
+- `Integer`: Unbounded integer. Used for really big numbers. `Int` is more efficient.
+- `Float`: Floating point with single precision.
+- `Double`: Floating point with double precision.
+- `Bool`: Boolean. `True` or `False`.
+- `Char`: Represents a character and is denoted by single quotes. A string is a list of chars (`[Char]`).
