@@ -13,6 +13,7 @@
   - [Types and Typeclasses](#types-and-typeclasses)
     - [Types](#types)
     - [Type Variables](#type-variables)
+    - [Typeclasses](#typeclasses)
 
 ## Starting Out
 
@@ -189,3 +190,36 @@ head :: [a] -> a
 ```
 
 `a` is a type variable - meaning it can be of any type. Functions that have type variables are called polymorphic functions. If a function type has more than one type variables it is usually `a`, `b`, `c`, etc., but that doesn't mean that `a` and `b` are different types.
+
+### Typeclasses
+
+Typeclasses define behavior. If a type is a part of a typeclass, it means it supports and implements the behavior the typeclass describes.
+
+If we look again a previous example:
+
+```hs
+ghci> let addThree x y z = x + y + z
+ghci> :t addThree
+addThree :: Num a => a -> a -> a -> a
+```
+
+The part between the `::` and the `=>` is called the class constraint. In this case, it means that the three arguments passed to `addThree` must all be of the `Num` typeclass. There can be multiple typeclasses, in which case they are separated by a comma:
+
+```hs
+ghci> :t fromIntegral
+fromIntegral :: (Integral a, Num b) => a -> b
+```
+Note: the `fromIntegral` function converts an `Integral` number into a more generic `Num` number.
+
+Some basic typeclasses:
+
+- `Eq`: Used for types that support equality testing. Its members implement the `==` and `/=` functions.
+- `Ord`: For types that have an ordering. Covers functions such as `>`, `<`, `<=`, `>=`, `compare`. `compare` takes two `Ord` members of the same type and returns `GT`, `LT, or `EQ`.
+- `Show`: For types that can be presented as a string. The most used function is `show`.
+- `Read`: The reverse of `Show` - strings that can be presented as other types. The `read` function takes a string and returns a type that is a member of `Read`.
+  - `read "4"` will return an error because `read` doesn't know what the type should be. So we can specify a return type: `read "4" :: Int`, `read "4" :: Float`, etc.
+- `Enum`: Sequentially ordered types. Can be used for list ranges.
+- `Bounded`: Members have an upper and lower bound, i.e. `Int`.
+- `Num`: Numeric typeclass. Its members can act like numbers.
+- `Integral`: Only includes whole numbers.
+- `Float`: Includes only floating point numbers.
