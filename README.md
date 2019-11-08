@@ -9,6 +9,7 @@
     - [Intro to Lists](#intro-to-lists)
     - [Ranges](#ranges)
     - [List Comprehensions](#list-comprehensions)
+    - [Tuples](#tuples)
 
 ## Starting Out
 
@@ -92,14 +93,14 @@ All predicates have to be `true` for the element to
 The list comprehension below returns the elements between 1 and 10 that when doubled are between 2 and 12:
 
 ```hs
-[ x*2 | x <- [1..10], x*2 >= 2, x*2 <= 12]
+[ x*2 | x <- [1..10], x*2 >= 2, x*2 <= 12 ]
 -- [Output function | input set, predicate 1, predicate n]
 ```
 
 List comprehensions can be assigned to functions:
 
 ```hs
-onlyFizz xs = [ if x `mod` 3 == 0 then "FIZZ" else show x | x <- xs]
+onlyFizz xs = [ if x `mod` 3 == 0 then "FIZZ" else show x | x <- xs ]
 ```
 
 ```hs
@@ -110,14 +111,14 @@ ghci> onlyFizz [1..15]
 When comprehensions draw from multiple lists they produce all combinations of the lists and then join them by the output function. E.g. a comprehension with two lists of 5 elements will produce a list with 25 elements (when unfiltered).
 
 ```hs
-ghci> [ x^y | x <- [2, 3, 4], y <- [5, 8, 4]]
+ghci> [ x^y | x <- [2, 3, 4], y <- [5, 8, 4] ]
 [32,256,16,243,6561,81,1024,65536,256]
 ```
 
 What if I don't want to use the actual element?
 
 ```hs
-length' xs = [ 1 | _ <- xs]
+length' xs = [ 1 | _ <- xs ]
 ```
 
 The `_` is a convention that is used to avoid defining a variable that won't be used.
@@ -125,7 +126,7 @@ The `_` is a convention that is used to avoid defining a variable that won't be 
 Since strings are lists, list comprehensions work on them too:
 
 ```hs
-ghci> let noLast10 xs = [ x | x <- xs, x `elem` take 16 (' ':['a'..'z'])]
+ghci> let noLast10 xs = [ x | x <- xs, x `elem` take 16 (' ':['a'..'z']) ]
 ghci> noLast10 "the quick brown fox jumps over a lazy dog"
 "he ick bon fo jm oe a la dog"
 ```
@@ -133,7 +134,21 @@ ghci> noLast10 "the quick brown fox jumps over a lazy dog"
 And working with nested lists:
 
 ```hs
-ghci> let noOddsNested xxs = [ [ x | x <- xs, even x] | xs <- xxs]
+ghci> let noOddsNested xxs = [ [ x | x <- xs, even x] | xs <- xxs ]
 ghci> noOddsNested [[1,3,5,2,3,1,2,4,5],[1,2,3,4,5,6,7,8,9],[1,2,4,2,1,6,3,1,3,2,3,6]]
 [[2,2,4],[2,4,6,8],[2,4,2,6,2,6]]
 ```
+
+### Tuples
+
+- Tuples are used to store data when you know how many values you want to combine.
+- Multiple types can be stored in a tuple.
+- Tuples are wrapped in parentheses.
+- Tuples can only be compared if they are the same size and if their components can be compared.
+- Some useful functions for pairs:
+  - `fst`: takes a pair and returns the first component.
+  - `snd`: takes a pair and return the second component.
+
+Another useful function is `zip`. It takes to lists and pairs up the elements to produce a new list of tuples. When zipping two lists of different lengths the longer list gets cutoff to the length of the shorter list.
+
+See [this](https://github.com/azuzunaga/lyah/blob/master/src/Lyah/StartingOut.hs#L15-L29) example on solving a problem with list comprehensions and tuples. It is a common pattern in functional programming to start with a set of solutions and narrow it down until you get to where you want to be.
