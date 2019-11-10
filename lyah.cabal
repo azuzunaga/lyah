@@ -92,3 +92,4 @@ library
   exposed-modules:
     Lyah
     Lyah.StartingOut
+    Lyah.SyntaxInFunctions

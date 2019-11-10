@@ -28,6 +28,7 @@ import GHC.Generics        (Generic)
 import GHC.Num             (Integer, Num (..))
 import GHC.Show            (Show (..))
 import Lyah.StartingOut
+import Lyah.SyntaxInFunctions
 
 todo :: String -> a
 todo s = error (mconcat ["TODO ", s])

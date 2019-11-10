@@ -14,6 +14,8 @@
     - [Types](#types)
     - [Type Variables](#type-variables)
     - [Typeclasses](#typeclasses)
+  - [Syntax in Functions](#syntax-in-functions)
+    - [Pattern Matching](#pattern-matching)
 
 ## Starting Out
 
@@ -223,3 +225,17 @@ Some basic typeclasses:
 - `Num`: Numeric typeclass. Its members can act like numbers.
 - `Integral`: Only includes whole numbers.
 - `Float`: Includes only floating point numbers.
+
+## Syntax in Functions
+
+### Pattern Matching
+
+Pattern matching is specifying constraints to which data should conform, and checking to see if it does and deconstructing the data according to the constraints. When defining functions you can define separate function bodies for different patterns:
+
+```hs
+lucky :: (Integral a) => a -> String
+lucky 7 = "Lucky number 7 wins again"
+lucky _ = "Try again next time"
+```
+
+When calling `lucky` the patterns will be called from top to bottom, evaluating the pattern that matches.
