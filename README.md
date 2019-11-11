@@ -239,3 +239,31 @@ lucky _ = "Try again next time"
 ```
 
 When calling `lucky` the patterns will be called from top to bottom, evaluating the pattern that matches.
+
+Here is how you can use pattern matching to define a function that finds a number's factorial recursively:
+
+```hs
+factorial :: (Integral a) => a -> a
+factorial 0 = 1
+factorial x = x * factorial (x - 1)
+```
+
+Pattern matching can fail when a catch-all pattern is not included.
+
+Pattern matching works with list comprehensions, tuples, and lists. Since list `[1, 2, 3]` is syntactic sugar for `1:2:3:[]`, you can get the elements of the list by passing in variables separated by colons, so `x:xs` would bind the first element to `x` and the rest of the list to `xs`. If you want to bind exactly to a number of variables, instead of binding with `x:y:[]` you can bind the elements of the list with `[x, y]`.
+
+```hs
+head' :: [a] -> a
+head' [] = error "Empty lists don't have a head"
+head' (x:_) = x
+```
+
+Note that when binding multiple variables they have to be surrounded by parentheses.
+
+Use _as patterns_ to bind separate variables _and_ the whole. _as patterns_ are created by putting a variable name and an `@` in front of a pattern:
+
+```hs
+firstLetter :: String -> String
+firstLetter "" = "There are no letters here"
+firstLetter word@(x:_) = "The first letter of " ++ word ++ " is " ++ [x]
+```
