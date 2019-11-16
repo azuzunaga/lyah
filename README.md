@@ -297,7 +297,7 @@ Remember that there is no equals after the function name and parameters.
 
 ### Where
 
-`where` clauses can be added to the end of functions to define functions / variables that are only in scope for the parent function. You can define functions with their own parameter list in a `where` block. And `where` blocks can also be nested - a `where` block can have their own `where` blocks.
+`where` bindings can be added to the end of functions to define functions / variables that are only in scope for the parent function, but including all the guards. You can define functions with their own parameter list in a `where` block. And `where` blocks can also be nested - a `where` block can have their own `where` blocks.
 
 ```hs
 fizzBuzz :: (Integral a, Show a) => [a] -> [String]
