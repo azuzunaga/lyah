@@ -17,6 +17,7 @@
   - [Syntax in Functions](#syntax-in-functions)
     - [Pattern Matching](#pattern-matching)
     - [Guards](#guards)
+    - [Where](#where)
 
 ## Starting Out
 
@@ -292,3 +293,33 @@ max' x y
 ```
 
 Remember that there is no equals after the function name and parameters.
+
+
+### Where
+
+`where` clauses can be added to the end of functions to define functions / variables that are only in scope for the parent function. You can define functions with their own parameter list in a `where` block. And `where` blocks can also be nested - a `where` block can have their own `where` blocks.
+
+```hs
+fizzBuzz :: (Integral a, Show a) => [a] -> [String]
+fizzBuzz xs = [ fizzOrBuzz x | x <- xs ]
+    where
+  fizzOrBuzz x
+      | x `mod` 15 == 0 = "fizzbuzz"
+      | x `mod` 5 == 0 = "fizz"
+      | x `mod` 3 == 0 = "buzz"
+      | otherwise = show x
+```
+
+The function above can also be written like this:
+
+```hs
+fizzBuzz :: (Integral a, Show a) => [a] -> [String]
+fizzBuzz xs = [ fizzOrBuzz x | x <- xs ]
+    where fizzOrBuzz x
+              | x `mod` 15 == 0 = "fizzbuzz"
+              | x `mod` 5 == 0 = "fizz"
+              | x `mod` 3 == 0 = "buzz"
+              | otherwise = show x
+```
+
+The important thing to know is that the guard has to be indented further to the right than the function body.
