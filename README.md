@@ -16,12 +16,13 @@
     - [Typeclasses](#typeclasses)
   - [Syntax in Functions](#syntax-in-functions)
     - [Pattern Matching](#pattern-matching)
+    - [Guards](#guards)
 
 ## Starting Out
 
 ### Intro to Functions
 
-- Functions that can take arguments on either side, like `+`, are called infix functions. A function can be made infix by surrounding it in back-ticks: `` 5 `times` 6 ``
+- Functions that can take arguments on either side, like `+`, are called infix functions. A function can be made infix by surrounding it in back-ticks: `` 5 `times` 6 ``. Functions can not only be called as infix, but they can also be defined as infix.
 - `if` statements are expressions, meaning they have to return a value; the `else` is mandatory.
 - Function names can include `'`, which is usually used to denote a slightly modified function or variable or a strict (non-lazy) function.
 - Functions can't start with uppercase letters.
@@ -267,3 +268,27 @@ firstLetter :: String -> String
 firstLetter "" = "There are no letters here"
 firstLetter word@(x:_) = "The first letter of " ++ word ++ " is " ++ [x]
 ```
+
+### Guards
+
+Guards are a way of testing values, a bit like if statement but more readable.
+
+```hs
+singleFizzBuzz :: (Integral a, Show a) => a -> String
+singleFizzBuzz x
+    | x `mod` 15 == 0 = "fizzbuzz"
+    | x `mod` 5 == 0 = "fizz"
+    | x `mod` 3 == 0 = "buzz"
+    | otherwise = show x
+```
+
+`otherwise` is a catchall if all previous guards evaluate to false. If there is no `otherwise`, evaluation goes to the next pattern. Guards can also be used with many parameters:
+
+```hs
+max' :: Ord a => a -> a
+max' x y
+    | x > y = x
+    | otherwise = y
+```
+
+Remember that there is no equals after the function name and parameters.
