@@ -18,6 +18,7 @@
     - [Pattern Matching](#pattern-matching)
     - [Guards](#guards)
     - [Where](#where)
+    - [Let](#let)
 
 ## Starting Out
 
@@ -323,3 +324,37 @@ fizzBuzz xs = [ fizzOrBuzz x | x <- xs ]
 ```
 
 The important thing to know is that the guard has to be indented further to the right than the function body.
+
+### Let
+
+Similar to `where` bindings, but let you bind to variables anywhere, are expressions, but don't span across guards. You can use pattern matching in let bindings (like any other Haskell construct that lets you bind variables to values).
+
+The function below calculates a cylinder's surface area based on the radius and the height.
+
+```hs
+cylinder :: (RealFloat a) => a -> a
+cylinder r h =
+    let sidearea = 2 * pi * r * h
+        toparea = pi * r^2
+    in  sidearea + 2 * toparea
+```
+
+The syntax is `let <bindind> in <expression>`. The variables defined in the `let` part are accessible to the expression after `in`. The main difference between `where` and `let` bindings is that `let` bindings are expressions, meaning they can go anywhere:
+
+```hs
+ghci> [let double x = x + x; square x = x^2 in (double 10, square 3, double 5)]
+[(20, 9, 10)]
+```
+
+When used inline, different let bindings can be separated with a semicolon (the last one is optional).
+
+`let` bindings can also be used in list comprehensions:
+
+```hs
+calcBmis :: (RealFloat a) => [(a, a)] -> [a]
+calcBmis x = [ bmi | (w, h) -> xs, let bmi = w / h^2, bmi >= 25.0 ]
+```
+
+The variables defined in the `let` binding are available to the output function (the part before the `|`) and to all the predicates and sections after the binding.
+
+The downside of `let` bindings is that they can't span guards. Some people also prefer `where` bindings because they go after the function body, and that way the type declaration and function body are close together.
