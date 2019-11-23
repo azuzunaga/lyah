@@ -19,6 +19,7 @@
     - [Guards](#guards)
     - [Where](#where)
     - [Let](#let)
+    - [Case Expressions](#case-expressions)
 
 ## Starting Out
 
@@ -358,3 +359,32 @@ calcBmis x = [ bmi | (w, h) -> xs, let bmi = w / h^2, bmi >= 25.0 ]
 The variables defined in the `let` binding are available to the output function (the part before the `|`) and to all the predicates and sections after the binding.
 
 The downside of `let` bindings is that they can't span guards. Some people also prefer `where` bindings because they go after the function body, and that way the type declaration and function body are close together.
+
+### Case Expressions
+
+Like the name implies, `case` blocks are expressions in Haskell. They let you evaluate expressions based on the possible case values of the variable, but also let you do pattern matching. This is exactly the same thing as pattern matching in function definitions. What is the difference? Pattern matching in function definitions is syntactic sugar for case statements.
+
+So this:
+
+```hs
+head' :: [a] -> a
+head' [] = error "Empty lists don't have a head."
+head' (x:_) = x
+```
+
+Is the same as this:
+
+```hs
+head' :: [a] -> a
+head' xs = case xs of [] -> error "Empty lists don't have a head."
+                   (x:_) -> x
+```
+
+The form is:
+
+```hs
+case expression of pattern -> result
+                of pattern -> result
+                of pattern -> result
+                ...
+```
