@@ -93,3 +93,4 @@ library
     Lyah
     Lyah.StartingOut
     Lyah.SyntaxInFunctions
+    Lyah.Recursion

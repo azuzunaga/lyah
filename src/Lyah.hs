@@ -29,6 +29,7 @@ import GHC.Num             (Integer, Num (..))
 import GHC.Show            (Show (..))
 import Lyah.StartingOut
 import Lyah.SyntaxInFunctions
+import Lyah.Recursion
 
 todo :: String -> a
 todo s = error (mconcat ["TODO ", s])
