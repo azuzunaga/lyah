@@ -55,3 +55,13 @@ elem'' _ [] = False
 elem'' x (y:ys)
     | x == y = True
     | otherwise = elem'' x ys
+
+-- Quicksort: The idea is that you pick an element from the list, usually
+-- the first, and place all the elements smaller than it before it, and
+-- all the elements bigger than it after.
+quicksort :: (Ord a) => [a] -> [a]
+quicksort [] = []
+quicksort (x:xs) =
+    let smaller = quicksort [ a | a <- xs, a <= x ]
+        bigger = quicksort [ a | a <- xs, a > x ]
+    in smaller ++ [x] ++ bigger
