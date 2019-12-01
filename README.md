@@ -73,7 +73,7 @@ ghci> ['K'..'Z']
 Separate the first two elements with a comma to get steps:
 
 ```hs
-ghci> [5, 7, 15]
+ghci> [5, 7..15]
 [5, 7, 9, 11, 13, 15]
 ```
 
