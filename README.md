@@ -1,5 +1,7 @@
 # Follow along repo for http://learnyouahaskell.com/
 
+Nix setup borrowed from https://github.com/mbbx6spp/effpee.
+
 ## Table of Contents
 
 - [Follow along repo for http://learnyouahaskell.com/](#follow-along-repo-for-httplearnyouahaskellcom)
