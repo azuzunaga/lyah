@@ -11,7 +11,7 @@ maximum' (x:xs)
 
 -- A little bit sleeker
 maximum'' :: (Ord a) => [a] -> a
-maximum'' [] = error "Empty lists don't have a max value"
+maximum'' []     = error "Empty lists don't have a max value"
 maximum'' (x:xs) = max x (maximum'' xs)
 
 -- Replicate an element n number of times
@@ -29,7 +29,7 @@ take' n (x:xs) = x:take' (n-1) xs
 
 -- Reverse a list
 reverse' :: [a] -> [a]
-reverse' [] = []
+reverse' []     = []
 reverse' (x:xs) = reverse' xs ++ [x]
 
 -- Repeat an element in an infite list
@@ -40,13 +40,13 @@ repeat' x = x:repeat' x
 -- Zip takes two lists and puts their elements together, truncating the
 -- longer list
 zip' :: [a] -> [b] -> [(a, b)]
-zip' [] _ = []
-zip' _ [] = []
+zip' [] _          = []
+zip' _ []          = []
 zip' (x:xs) (y:ys) = (x, y):zip' xs ys
 
 -- Check to see if an element is in a list
 elem' :: (Eq a) => a -> [a] -> Bool
-elem' _ [] = False
+elem' _ []     = False
 elem' x (y:ys) = x == y || elem' x ys
 
 -- Another way of doing it
