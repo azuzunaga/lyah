@@ -11,9 +11,9 @@ let
   version = "0.1.0";
 
   hiePkgs = import (builtins.fetchGit {
-    url = https://github.com/domenkozar/hie-nix.git;
+    url = https://github.com/Infinisil/all-hies.git;
     ref = "master";
-    rev = "19f47e0bf2e2f1a793bf87d64bf8266062f422b1";
+    rev = "8d9b0e770c8e2264ef4882623a205548d9fdaa03";
   }) { };
 
   haskellPkgs = pkgs.haskell.packages."${ghcVersion}".extend(self: super: {
