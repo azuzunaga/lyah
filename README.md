@@ -22,6 +22,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Where](#where)
     - [Let](#let)
     - [Case Expressions](#case-expressions)
+  - [Higher order functions](#higher-order-functions)
 
 ## Starting Out
 
@@ -390,3 +391,35 @@ case expression of pattern -> result
                 of pattern -> result
                 ...
 ```
+
+## Higher order functions
+
+All functions in Haskell are curried, meaning they only take one argument and return a function until the correct number of arguments is given. Those intermediate functions are called partially applied functions.
+
+```hs
+ghci> sum' x y = x + y
+ghci> addTwo = sum' 2
+ghci> addTwo 5
+ghci> 7
+```
+
+Putting a space between arguments is called function application, so `max 2 4` is the same as `(max 2) 4`.
+
+Infix functions can also be partially applied by surrounding the function and only providing an argument on one side:
+
+```hs
+ghci> divideByTen = (/10)
+ghci> divideByTen 200
+ghci> 20
+ghci> (/10) 200
+ghci> 20
+```
+
+Take a look at the flip function:
+
+```hs
+flip' :: (a -> b -> c) -> b -> a -> c
+flip' f x y = f y x
+```
+
+The type signature for `flip'` can also be written as `(a -> b -> c) -> (b -> a -> c)`, but since all functions are curried in Haskell this is unnecessary.
