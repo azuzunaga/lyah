@@ -30,6 +30,7 @@ import GHC.Show            (Show (..))
 import Lyah.StartingOut
 import Lyah.SyntaxInFunctions
 import Lyah.Recursion
+import Lyah.HigherOrderFunctions
 
 todo :: String -> a
 todo s = error (mconcat ["TODO ", s])
