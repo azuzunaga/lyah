@@ -23,6 +23,9 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Let](#let)
     - [Case Expressions](#case-expressions)
   - [Higher order functions](#higher-order-functions)
+    - [map and filter](#map-and-filter)
+      - [map](#map)
+      - [filter](#filter)
 
 ## Starting Out
 
@@ -423,3 +426,29 @@ flip' f x y = f y x
 ```
 
 The type signature for `flip'` can also be written as `(a -> b -> c) -> (b -> a -> c)`, but since all functions are curried in Haskell this is unnecessary.
+
+### `map` and `filter`
+
+#### `map`
+
+Map takes a function and a list, and returns a list with the function applied to each individual element.
+
+```hs
+map :: (a -> b) -> [a] -> [b]
+map _ [] = []
+map f (x:xs) = f x : map f xs
+```
+
+#### `filter`
+
+Filter takes a predicate function and a list, and returns a list with only the elements that return true in the predicate function.
+
+```hs
+filter :: (a -> Bool) -> [a] -> [a]
+filter _ [] = []
+filter p (x:xs)
+    | p x       = x : filter p xs
+    | otherwise = filter p xs
+```
+
+In functional programming map and filter take the place of nested loops. You take a function that produced a result, map it over a list, and filter the list on what you are looking for. Because of Haskell's laziness, even if you map and filter over a list multiple times, it will pass over the list only once.
