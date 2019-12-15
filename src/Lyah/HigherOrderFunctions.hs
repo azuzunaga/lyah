@@ -13,3 +13,11 @@ zipWith' f (x:xs) (y:ys) = f x y : zipWith' f xs ys
 -- flipped.
 flip' :: (a -> b -> c) -> b -> a -> c
 flip' f x y = f y x
+
+-- Implement quicksort using filter
+quicksort'' :: (Ord a) => [a] -> [a]
+quicksort'' [] = []
+quicksort'' (x:xs) =
+    let smaller = quicksort'' (filter (<=x) xs)
+        bigger = quicksort'' (filter (>x) xs)
+    in smaller ++ [x] ++ bigger
