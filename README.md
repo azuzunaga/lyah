@@ -26,6 +26,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [map and filter](#map-and-filter)
       - [map](#map)
       - [filter](#filter)
+    - [Lambdas](#lambdas)
 
 ## Starting Out
 
@@ -451,4 +452,35 @@ filter p (x:xs)
     | otherwise = filter p xs
 ```
 
-In functional programming map and filter take the place of nested loops. You take a function that produced a result, map it over a list, and filter the list on what you are looking for. Because of Haskell's laziness, even if you map and filter over a list multiple times, it will pass over the list only once.
+In functional programming map and filter take the place of nested loops. You take a function that produces a result, map it over a list, and filter the list on what you are looking for. Because of Haskell's laziness even if you map and filter over a list multiple times, it will pass over the list only once.
+
+### Lambdas
+
+Lambdas are anonymous functions that are used when we need to pass a one-off function to a higher order function. To make a lambda, start with a `\` (it kinda looks like a λ) followed by the parameters separated by spaces, and then a `->` followed by the function body. Unless the lambda is wrapped in parentheses it extends all the way to the right.
+
+Many times lambdas are used unnecessarily, because people forget that Haskell curries functions by default, so `map (\x -> x + 3) [2, 3, 4]` is really the same as `map (+3) [2, 3, 4]`.
+
+Like normal functions, lambdas can take many parameters and you can also pattern match, but only one pattern. You have to be careful when pattern matching in lambdas, because if the pattern match fails in a lambda you get an error.
+
+The two functions below are identical, and using lambdas is a neat way to illustrate currying:
+
+```hs
+addThree :: (Num a) => a -> a -> a -> a
+addThree z y z = x + y + z
+```
+
+And:
+
+```hs
+addThree :: (Num a) => a -> a -> a -> a
+addThree \x -> \y -> \z -> x + y + z
+```
+
+But lambda notation is sometimes clearer:
+
+```hs
+flip :: (a -> b -> c) -> b -> a -> c
+flip f = \x y -> f y x
+```
+
+In the example above, using a lambda makes it obvious that the flip function produces a new function.
