@@ -27,6 +27,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
       - [map](#map)
       - [filter](#filter)
     - [Lambdas](#lambdas)
+    - [Folds](#folds)
 
 ## Starting Out
 
@@ -484,3 +485,7 @@ flip f = \x y -> f y x
 ```
 
 In the example above, using a lambda makes it obvious that the flip function produces a new function.
+
+### Folds
+
+Folds are a very similar concept to reduce functions, which take a list, an initial argument or accumulator, and a function that "reduces" the values of the list to a single value.
