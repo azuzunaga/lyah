@@ -28,6 +28,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
       - [filter](#filter)
     - [Lambdas](#lambdas)
     - [Folds](#folds)
+      - [foldl](#foldl)
 
 ## Starting Out
 
@@ -488,4 +489,33 @@ In the example above, using a lambda makes it obvious that the flip function pro
 
 ### Folds
 
-Folds are a very similar concept to reduce functions, which take a list, an initial argument or accumulator, and a function that "reduces" the values of the list to a single value.
+Folds are a very similar concept to reduce functions, which take a list, an initial argument or accumulator, and a binary function (takes two arguments) that "reduces" the values of the list and the accumulator to a single value.
+
+#### `foldl`
+
+`foldl` also called the left fold, folds up the list from the left side. The binary function is applied between the accumulator and the head of the list. The result becomes the new accumulator and the binary function is called with that new accumulator and the next element in the list.
+
+The sum function can be implemented with a left fold:
+
+```hs
+sum' :: (Num a) => [a] -> a
+sum' xs = foldl (\acc x = acc + x) 0 xs
+```
+
+Taking into account the fact that functions are curried, the sum function can also be written like this:
+
+```hs
+sum' :: (Num a) => [a] -> a
+sum' = foldl (+) 0
+```
+
+`(\acc x = acc + x)` can be rewritten as (+). The `xs` parameter can be omitted because calling `foldl (+) 0` will return a function that takes a list. Pro-tip: generally, if you have a function that looks like `foo a = bar a b` it can be rewritten as `foo = bar b`. Because of currying.
+
+We can also implement `elem` with a left fold:
+
+```hs
+elem' :: (Eq a) => a -> [a] -> Bool
+elem' y = foldl (\acc x -> if x == y then True else acc) False
+```
+
+Remember that the type of the accumulator is always the same as the return value.
