@@ -29,6 +29,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Lambdas](#lambdas)
     - [Folds](#folds)
       - [foldl](#foldl)
+    - [foldr](#foldr)
 
 ## Starting Out
 
@@ -519,3 +520,25 @@ elem' y = foldl (\acc x -> if x == y then True else acc) False
 ```
 
 Remember that the type of the accumulator is always the same as the return value.
+
+### `foldr`
+
+Similar to a left fold, except the list is consumed from the right. The binary function argument order is also flipped, so the first parameter is the current value and the second is the accumulator (`\x acc -> ...` instead of `\acc x -> ...`).
+
+One thing to note is that the type of the accumulator value can be anything, even a new list. Below `map` is implemented with a right fold:
+
+```hs
+map' :: (a -> b) -> [a] -> [b]
+map' f xs = foldr (\x acc -> f x : acc) [] xs
+```
+
+Remember that since functions are curried by default the `map` function can also be written like this:
+
+```hs
+map' :: (a -> b) -> [a] -> [b]
+map' f = foldr (\x acc -> f x : acc) []
+```
+
+`map` can also be implemented with a left fold, and most other functions can be implemented with either a right or left fold, with varying amounts of tweaking. But, where left folds can't work with infinite lists, right folds can.
+
+Folds, like maps and filters, are a workhorse of functional programming. Use folds whenever you want to traverse a list to return something.
