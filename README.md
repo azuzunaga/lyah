@@ -30,6 +30,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Folds](#folds)
       - [foldl](#foldl)
     - [foldr](#foldr)
+    - [foldl1 and foldr1](#foldl1-and-foldr1)
 
 ## Starting Out
 
@@ -542,3 +543,34 @@ map' f = foldr (\x acc -> f x : acc) []
 `map` can also be implemented with a left fold, and most other functions can be implemented with either a right or left fold, with varying amounts of tweaking. But, where left folds can't work with infinite lists, right folds can.
 
 Folds, like maps and filters, are a workhorse of functional programming. Use folds whenever you want to traverse a list to return something.
+
+### `foldl1` and `foldr1`
+
+Similar to `foldl` and `foldr` except an accumulator value does not need to be provided. Instead, it is the first element of the list from the right or left side respectively. However, both of these functions will fail if given an empty list.
+
+Implementing a few standard library functions with folds:
+
+```hs
+sum' :: (Num a) => [a] -> a
+sum' = foldr1 (+)
+
+maximum' :: (Ord a) => [a] -> a
+maximum' = foldl1 (\acc x -> if x > acc then x else acc)
+
+reverse' :: [a] -> [a]
+reverse' = foldl (flip (:)) []
+
+product' :: (Num a) => [a] -> a
+product' = foldl1 (*)
+
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' f = foldl (\acc x -> if f(x) then x : acc else acc) []
+
+head' :: [a] -> a
+head' = foldr1 (\x _ -> x)
+
+last' :: [a] -> a
+last' = foldl1 (\_ x -> x)
+```
+
+Think of left and right folds as nested function applications over the values of a list, so folding right over the values of a list `[3,6,3,7,2]` is `f 3 (f 6 (f 3 (f 7 (f 2 acc))))` and folding left would be `f (f (f (f (f acc 3) 6) 3) 7) 2`.
