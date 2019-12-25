@@ -29,9 +29,9 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Lambdas](#lambdas)
     - [Folds](#folds)
       - [foldl](#foldl)
-    - [foldr](#foldr)
-    - [foldl1 and foldr1](#foldl1-and-foldr1)
-    - [scanr and scanl](#scanr-and-scanl)
+      - [foldr](#foldr)
+      - [foldl1 and foldr1](#foldl1-and-foldr1)
+      - [scanr and scanl](#scanr-and-scanl)
 
 ## Starting Out
 
@@ -523,7 +523,7 @@ elem' y = foldl (\acc x -> if x == y then True else acc) False
 
 Remember that the type of the accumulator is always the same as the return value.
 
-### `foldr`
+#### `foldr`
 
 Similar to a left fold, except the list is consumed from the right. The binary function argument order is also flipped, so the first parameter is the current value and the second is the accumulator (`\x acc -> ...` instead of `\acc x -> ...`).
 
@@ -545,7 +545,7 @@ map' f = foldr (\x acc -> f x : acc) []
 
 Folds, like maps and filters, are a workhorse of functional programming. Use folds whenever you want to traverse a list to return something.
 
-### `foldl1` and `foldr1`
+#### `foldl1` and `foldr1`
 
 Similar to `foldl` and `foldr` except an accumulator value does not need to be provided. Instead, it is the first element of the list from the right or left side respectively. However, both of these functions will fail if given an empty list.
 
@@ -576,7 +576,7 @@ last' = foldl1 (\_ x -> x)
 
 Think of left and right folds as nested function applications over the values of a list, so folding right over the values of a list `[3,6,3,7,2]` is `f 3 (f 6 (f 3 (f 7 (f 2 acc))))` and folding left would be `f (f (f (f (f acc 3) 6) 3) 7) 2`.
 
-### `scanr` and `scanl`
+#### `scanr` and `scanl`
 
 Similar to `foldr` and `foldl`, except these functions output a list with all the intermediate accumulator values. `scanr` and `scanl1` are similar to `foldr1` and `foldl1`. For `scanr` the head of the list will be the final value of the fold function, and for `scanl` it will be the last element.
 
