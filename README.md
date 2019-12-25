@@ -31,6 +31,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
       - [foldl](#foldl)
     - [foldr](#foldr)
     - [foldl1 and foldr1](#foldl1-and-foldr1)
+    - [scanr and scanl](#scanr-and-scanl)
 
 ## Starting Out
 
@@ -574,3 +575,23 @@ last' = foldl1 (\_ x -> x)
 ```
 
 Think of left and right folds as nested function applications over the values of a list, so folding right over the values of a list `[3,6,3,7,2]` is `f 3 (f 6 (f 3 (f 7 (f 2 acc))))` and folding left would be `f (f (f (f (f acc 3) 6) 3) 7) 2`.
+
+### `scanr` and `scanl`
+
+Similar to `foldr` and `foldl`, except these functions output a list with all the intermediate accumulator values. `scanr` and `scanl1` are similar to `foldr1` and `foldl1`. For `scanr` the head of the list will be the final value of the fold function, and for `scanl` it will be the last element.
+
+```hs
+ghci> scanl (+) 0 [5,2,7,4]
+[0,5,7,14,18]
+
+ghci> scanr (+) 0 [5,2,7,4]
+[18,13,11,4,0]
+
+ghci> scanl1 (\acc x -> if x > acc then x else acc) [4,6,3,5,2,7,8,1]
+[4,6,6,6,6,7,8,8]
+
+ghci> scanl (flip (:)) [] [3,2,1]
+[[], [3], [2, 3], [1, 2, 3]]
+```
+
+Scans are useful for monitoring the progression of a function that can be implemented as a fold. One use case is to monitor the results of a fold until a certain threshold or condition is met, and then counting the number of items in the resulting scan list.
