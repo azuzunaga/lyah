@@ -22,7 +22,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Where](#where)
     - [Let](#let)
     - [Case Expressions](#case-expressions)
-  - [Higher order functions](#higher-order-functions)
+  - [Higher Order Functions](#higher-order-functions)
     - [map and filter](#map-and-filter)
       - [map](#map)
       - [filter](#filter)
@@ -32,6 +32,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
       - [foldr](#foldr)
       - [foldl1 and foldr1](#foldl1-and-foldr1)
       - [scanr and scanl](#scanr-and-scanl)
+    - [Function Application With $](#function-application-with-)
 
 ## Starting Out
 
@@ -401,7 +402,7 @@ case expression of pattern -> result
                 ...
 ```
 
-## Higher order functions
+## Higher Order Functions
 
 All functions in Haskell are curried, meaning they only take one argument and return a function until the correct number of arguments is given. Those intermediate functions are called partially applied functions.
 
@@ -595,3 +596,23 @@ ghci> scanl (flip (:)) [] [3,2,1]
 ```
 
 Scans are useful for monitoring the progression of a function that can be implemented as a fold. One use case is to monitor the results of a fold until a certain threshold or condition is met, and then counting the number of items in the resulting scan list.
+
+### Function Application With `$`
+
+Take a look at the definition of the function `$`:
+
+```hs
+($) :: (a -> b) -> a -> b
+f $ x = f x
+```
+
+The `$` operator is just like function application with a space, except it has the lowest precedence. Function application with a space is left associative, so `f a b c` is the same as `((f a) b) c`, and function application with the `$` operator is right associative, so `f $ a $ b $ c` is the same as `f (a (b c))`.
+
+This is helpful because it can be used to replace parentheses, so `sum (map sqrt [1..130])` becomes `sum $ map sqrt [1..130]`. When a `$` the expression on the right is applied as the parameter to the expression on the left. What if you have a function that takes many parameters, like trying to get the square root of 5 + 3 + 7? With parentheses it would be written as `sqrt (5 + 3 + 7)` and with function application it would be written as `sqrt $ 5 + 3 + 7`.
+
+But since `$` is a function, it can be treated like any other function:
+
+```hs
+ghci> map ($ 5) [(4+), (9*), (^3), sqrt]
+[9.0,45.0,125.0,2.23606797749979]
+```
