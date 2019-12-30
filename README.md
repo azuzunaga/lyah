@@ -33,6 +33,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
       - [foldl1 and foldr1](#foldl1-and-foldr1)
       - [scanr and scanl](#scanr-and-scanl)
     - [Function Application With $](#function-application-with-)
+    - [Function Composition](#function-composition)
 
 ## Starting Out
 
@@ -228,12 +229,13 @@ The part between the `::` and the `=>` is called the class constraint. In this c
 ghci> :t fromIntegral
 fromIntegral :: (Integral a, Num b) => a -> b
 ```
+
 Note: the `fromIntegral` function converts an `Integral` number into a more generic `Num` number.
 
 Some basic typeclasses:
 
 - `Eq`: Used for types that support equality testing. Its members implement the `==` and `/=` functions.
-- `Ord`: For types that have an ordering. Covers functions such as `>`, `<`, `<=`, `>=`, `compare`. `compare` takes two `Ord` members of the same type and returns `GT`, `LT, or `EQ`.
+- `Ord`: For types that have an ordering. Covers functions such as `>`, `<`, `<=`, `>=`, `compare`. `compare` takes two `Ord` members of the same type and returns `GT`, `LT, or`EQ`.
 - `Show`: For types that can be presented as a string. The most used function is `show`.
 - `Read`: The reverse of `Show` - strings that can be presented as other types. The `read` function takes a string and returns a type that is a member of `Read`.
   - `read "4"` will return an error because `read` doesn't know what the type should be. So we can specify a return type: `read "4" :: Int`, `read "4" :: Float`, etc.
@@ -308,7 +310,6 @@ max' x y
 ```
 
 Remember that there is no equals after the function name and parameters.
-
 
 ### Where
 
@@ -615,4 +616,79 @@ But since `$` is a function, it can be treated like any other function:
 ```hs
 ghci> map ($ 5) [(4+), (9*), (^3), sqrt]
 [9.0,45.0,125.0,2.23606797749979]
+```
+
+### Function Composition
+
+Function composition in math is defined as <img src="https://render.githubusercontent.com/render/math?math=(f.g)(x) = f(g(x))">. This means that composing two functions `f` and `g` produces a new function that, when called with a parameter `x` is the same as calling `g` with the parameter `x` and then calling `f` with that result.
+
+This works the same in Haskell, with the function `.` defined as:
+
+```hs
+(.) :: (b -> c) -> (a -> b) -> a -> c
+f . g = \x -> f (g x)
+```
+
+The type declaration says that function `f` takes as a parameter a value of the same type as `g`'s return value. The composed function takes a parameter of the same type that `g` takes and returns a value that matches the return type of function `f`.
+
+The expression `negate . (/ 7)` returns a function that takes a number, divides it by 7, and then negates it.
+
+One of the uses of function composition is making functions to pass to other functions. Lambdas can also be used for that, but many times function composition is cleaner. For example, take a list of numbers that we want to turn all into negative numbers.
+
+With lambdas:
+
+```hs
+ghci> map (\x -> negate (abs x)) [5,-3,-6,7,-3,2,-19,24]
+[-5,-3,-6,-7,-3,-2,-19,-24]
+```
+
+Notice how the lambda looks like the definition of function composition. Using function composition:
+
+```hs
+ghci> map (negate . abs) [5,-3,-6,7,-3,2,-19,24]
+[-5,-3,-6,-7,-3,-2,-19,-24]
+```
+
+Function composition is right associative, so `f . g . z x` is the same as `f (g (z x))`. So:
+
+```hs
+map (\xs -> negate (sum (tail xs))) [[1..5],[3..6],[1..7]]
+```
+
+Can be turned into:
+
+```hs
+map (negate . sum . tail) [[1..5],[3..6],[1..7]]
+```
+
+What if a function takes more than one parameter? In that case the functions have to be partially applied so that each function only takes one parameter. So that `sum (replicate 5(max 3 8))` can be rewritten as `(sum . replicate 5 . max 3) 8` or `sum . replicate 5 . max 3 $ 8`.
+
+Rewriting a function with a lot of parentheses with function composition can be done by putting the last parameter of innermost function after a `$`, and then composing all other functions without their last parameter. `replicate 100 (product (map (*3) (zipWith max [1,2,3,4,5] [4,5,6,7,8])))` can be rewritten as `replicate 100 . product . map (*3) . zipWith max [1,2,3,4,5] $ [4,5,6,7,8]`.
+
+Another use of function composition is writing functions in _point free_ style. So `sum' xs = foldl 0 xs` becomes `sum' = foldl 0`. `xs` is on both sides of the function. Because of currying the `xs` can be omitted.
+
+But how about writing `fn x = ceiling (negate (tan (cos (max 50 x))))` in point free style? The `x` is inside of the parentheses and taking the cosine of a function doesn't make sense. Function composition to the rescue: `fn = ceiling . negate. tan . cos . max 50`.
+
+A point free style is often neater and more readable, but it can be taken too far with long composition chains. Check out three different ways of writing a function that finds the sum of all odd squares that are smaller than 10,000:
+
+```hs
+oddSquareSum :: Integer
+oddSquareSum = sum (takeWhile (<10000) (filter odd map (^2) [1..]))
+```
+
+Using function composition:
+
+```hs
+oddSquareSum :: Integer
+oddSquareSum = sum . takeWhile (<10000) . filter . odd . map (^2) $ [1..]
+```
+
+And finally, with more readable and maintainable code:
+
+```hs
+oddSquareSum :: Integer
+oddSquareSum =
+    let oddSquares = filter odd $ map (^2) [1..]
+        belowLimit = takeWhile (<10000) oddSquares
+    in  sum belowLimit
 ```
