@@ -34,6 +34,9 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
       - [scanr and scanl](#scanr-and-scanl)
     - [Function Application With $](#function-application-with-)
     - [Function Composition](#function-composition)
+  - [Modules](#modules)
+    - [Loading Modules](#loading-modules)
+    - [Useful Functions From the Standard Library:](#useful-functions-from-the-standard-library)
 
 ## Starting Out
 
@@ -692,3 +695,23 @@ oddSquareSum =
         belowLimit = takeWhile (<10000) oddSquares
     in  sum belowLimit
 ```
+
+## Modules
+
+### Loading Modules
+
+A module is a collection of related functions, types, and typeclasses. To import a module, you have to place `import <module name>` at the top of the file. To import multiple modules you just put each import statement in a new line.
+
+When you import a module, all of the functions of that module become available in the global namespace. You can also do this in ghci by entering `m: + <module name>`. If you want to import more than one module in ghci you separate the modules names with a space.
+
+- To import only a few functions from a module: `import <module name> (function1 function2)`.
+- To import everything but a few functions from a module: `import <module name> hiding (function1)`
+- Deal with name clashes by namespacing imports: `import qualified <module name>`.
+- Create an alias for the namespaced module: `import qualified <module name> as <mn>`
+
+### Useful Functions From the Standard Library:
+
+- [`Data.List`](http://learnyouahaskell.com/modules#data-list)
+- [`Data.Char`](http://learnyouahaskell.com/modules#data-char)
+- [`Data.Map`](http://learnyouahaskell.com/modules#data-map)
+- [`Data.Set`](http://learnyouahaskell.com/modules#data-set)
