@@ -37,6 +37,8 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
   - [Modules](#modules)
     - [Loading Modules](#loading-modules)
     - [Useful Functions From the Standard Library:](#useful-functions-from-the-standard-library)
+  - [Types and Typeclasses](#types-and-typeclasses-1)
+    - [Algebraic Data Types](#algebraic-data-types)
 
 ## Starting Out
 
@@ -715,3 +717,15 @@ When you import a module, all of the functions of that module become available i
 - [`Data.Char`](http://learnyouahaskell.com/modules#data-char)
 - [`Data.Map`](http://learnyouahaskell.com/modules#data-map)
 - [`Data.Set`](http://learnyouahaskell.com/modules#data-set)
+
+## Types and Typeclasses
+
+### Algebraic Data Types
+
+To make your own data type you use the data keyword. Check out how the `Bool` type is defined:
+
+```hs
+data Bool = False | True
+```
+
+`data` means that we are defining a new data type. `Bool` is the name of the type, and the stuff after the equals sign are the posible values, where `|` means or. So this can be read as _the `Bool` type can have a value of `True` or `False`_.
