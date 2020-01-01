@@ -729,3 +729,47 @@ data Bool = False | True
 ```
 
 `data` means that we are defining a new data type. `Bool` is the name of the type, and the stuff after the equals sign are the posible values, where `|` means or. So this can be read as _the `Bool` type can have a value of `True` or `False`_.
+
+What if we want to create a custom type?
+
+```hs
+data Shape = Circle Float Float Float | Rectangle Float Float Float Float
+```
+
+A circle is defined as a coordinate point that represents the center of the circle and a radius, and a rectangle is defined as two coordinate points which represent two opposite corners of a rectangle. And what are `Circle` and `Rectangle`? They are a type of function called value constructors, which accept parameters and return a value of a data type:
+
+```hs
+ghci> :t Rectangle
+Rectangle :: Float -> Float -> Float -> Float -> Shape
+```
+
+You can use value constructors to pattern match:
+
+```hs
+surface :: Shape -> Float
+surface (Circle _ _ r) -> pi * r^2
+surface (Rectangle x1 y1 x2 y2) = (abs $ x2 - x1) * (abs $ y2 - y1)
+```
+
+To get ghci to print our data types we have to make them part of the `Show` typeclass:
+
+```hs
+data Shape = Circle Float Float Float | Rectangle Float Float Float Float deriving (Show)
+```
+
+We can use data types inside our data types to make them more understandable:
+
+```hs
+data Point = Point Float Float deriving (Show)
+data Shape = Circle Point Float | Rectangle Point Point deriving (Show)
+
+surface :: Shape -> Float
+surface (Circle _ r) = pi * r^2
+surface (Rectangle (Point x1 y1) (Point x2 y2)) = (abs $ x2 - x1) * (abs $ y2 - y1)
+```
+
+We used the same name for the value constructor and the data type when defining `Point`. This is not necessary but it is a common thing to do if there is only one value constructor. Notice also how the `surface` function had to be modified, but only the patterns.
+
+Exporting types is easy, just write them alongside the functions that are being exported and add some parentheses with the constructors you want to export (comma separated). If you want to export all the value constructors for a type just write `..` inside the parentheses.
+
+You can also not export any constructors and export auxiliary functions that make the data types. This makes the data type more abstract and keeps functions from pattern matching against the constructors.
