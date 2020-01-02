@@ -39,6 +39,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Useful Functions From the Standard Library:](#useful-functions-from-the-standard-library)
   - [Types and Typeclasses](#types-and-typeclasses-1)
     - [Algebraic Data Types](#algebraic-data-types)
+    - [Record Syntax](#record-syntax)
 
 ## Starting Out
 
@@ -773,3 +774,23 @@ We used the same name for the value constructor and the data type when defining 
 Exporting types is easy, just write them alongside the functions that are being exported and add some parentheses with the constructors you want to export (comma separated). If you want to export all the value constructors for a type just write `..` inside the parentheses.
 
 You can also not export any constructors and export auxiliary functions that make the data types. This makes the data type more abstract and keeps functions from pattern matching against the constructors.
+
+### Record Syntax
+
+Record syntax is used when creating data types to make them more descriptive, readable in ghci, and as a bonus it creates attribute reader functions for each field. To use record syntax, declare a data type, open curly braces and inside list all the fields. After each field, a double colon followed by a type designates the type of that field:
+
+```hs
+data Person = Person { firstName :: String
+                     , lastName :: String
+                     , age :: Int
+                     , height :: Float
+                     , phoneNumber :: String
+                     } deriving (Show)
+```
+
+```hs
+ghci> Person { firstName="Jim", lastName="Bob", age=20, height=72, phoneNumber="20363184818" }
+Person { firstName="Jim", lastName="Bob", age=20, height=72, phoneNumber="20363184818" }
+```
+
+Use record syntax when a constructor has several fields and it is not clear which one is which; without record syntax fields have to be specified in order.
