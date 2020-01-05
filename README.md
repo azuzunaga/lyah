@@ -40,6 +40,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
   - [Types and Typeclasses](#types-and-typeclasses-1)
     - [Algebraic Data Types](#algebraic-data-types)
     - [Record Syntax](#record-syntax)
+    - [Type Parameters](#type-parameters)
 
 ## Starting Out
 
@@ -794,3 +795,28 @@ Person { firstName="Jim", lastName="Bob", age=20, height=72, phoneNumber="203631
 ```
 
 Use record syntax when a constructor has several fields and it is not clear which one is which; without record syntax fields have to be specified in order.
+
+### Type Parameters
+
+Type constructors can take types as parameters and produce a new type (similar to value constructors that take some values as parameters and produce a new value).
+
+For example, the `Maybe` type constructor:
+
+```hs
+data Maybe a = Nothing | Just a
+```
+
+The `a` is the type parameter, and `Maybe` is the type constructor. No value can have a type of just `Maybe` since that is just the type constructor. If we pass a type of `Num` as the type parameter to `Maybe` we get a type of `Maybe Num`. So the value `Just 7` has a type of `Maybe Num`.
+
+Check out the type of `Nothing`:
+
+```hs
+ghci> :t Nothing
+Nothing :: Maybe a
+```
+
+`Nothing` has a polymorphic type, which means that it can be of any type. So if you have a function that expects a `Char` you can pass it `Nothing` because a `Nothing` doesn't contain a value anyway. This is similar to empty lists (type `[a]`) since it can act like a list of anything.
+
+Although type parameters are useful, only use them when it makes sense, usually when the type in the data type's value constructuctors isn't important for the type to work. Going back to lists, a list of things is a list of things, and it doesn't matter what the type is. If we need to sum the elements of the list we can specify the type in the summing function.
+
+It is a convention in Haskell to **never add typeclass constraints in data declarations.** It doesn't really have that many benefits and we end up writing more class constraints even when unneeded. Don't out type constraints into data declarations even if it seems to make sense, because they'll have to be added to the function type declarations either way.
