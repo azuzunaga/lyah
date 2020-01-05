@@ -817,6 +817,6 @@ Nothing :: Maybe a
 
 `Nothing` has a polymorphic type, which means that it can be of any type. So if you have a function that expects a `Char` you can pass it `Nothing` because a `Nothing` doesn't contain a value anyway. This is similar to empty lists (type `[a]`) since it can act like a list of anything.
 
-Although type parameters are useful, only use them when it makes sense, usually when the type in the data type's value constructuctors isn't important for the type to work. Going back to lists, a list of things is a list of things, and it doesn't matter what the type is. If we need to sum the elements of the list we can specify the type in the summing function.
+Although type parameters are useful, only use them when it makes sense, usually when the type in the data type's value constructors isn't important for the type to work. Going back to lists, a list of things is a list of things, and it doesn't matter what the type is. If we need to sum the elements of the list we can specify the type in the summing function.
 
 It is a convention in Haskell to **never add typeclass constraints in data declarations.** It doesn't really have that many benefits and we end up writing more class constraints even when unneeded. Don't out type constraints into data declarations even if it seems to make sense, because they'll have to be added to the function type declarations either way.
