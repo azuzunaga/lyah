@@ -41,6 +41,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Algebraic Data Types](#algebraic-data-types)
     - [Record Syntax](#record-syntax)
     - [Type Parameters](#type-parameters)
+    - [Derived Instances](#derived-instances)
 
 ## Starting Out
 
@@ -820,3 +821,9 @@ Nothing :: Maybe a
 Although type parameters are useful, only use them when it makes sense, usually when the type in the data type's value constructors isn't important for the type to work. Going back to lists, a list of things is a list of things, and it doesn't matter what the type is. If we need to sum the elements of the list we can specify the type in the summing function.
 
 It is a convention in Haskell to **never add typeclass constraints in data declarations.** It doesn't really have that many benefits and we end up writing more class constraints even when unneeded. Don't out type constraints into data declarations even if it seems to make sense, because they'll have to be added to the function type declarations either way.
+
+### Derived Instances
+
+Typeclasses define an interface for behavior (e.g. the `Int` type is part of the `Eq` typeclass because `Eq` defines behavior for things that can be equated), which is why they are often confused with classes in OO languages. However, whereas in OO languages a class is used to define behavior and also to initialize objects that contain data (state), typeclasses only define an interface. In Haskell, we first create data and then think of the behavior it has. If it can be equated, we make it part of the `Eq` typeclass.
+
+Haskell can automatically make our types part of these typeclasses by using the `deriving` keyword: `Eq`, `Ord`, `Enun`, `Bounded`, `Show`, and `Read`.
