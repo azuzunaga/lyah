@@ -42,6 +42,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Record Syntax](#record-syntax)
     - [Type Parameters](#type-parameters)
     - [Derived Instances](#derived-instances)
+      - [Eq](#eq)
 
 ## Starting Out
 
@@ -827,3 +828,7 @@ It is a convention in Haskell to **never add typeclass constraints in data decla
 Typeclasses define an interface for behavior (e.g. the `Int` type is part of the `Eq` typeclass because `Eq` defines behavior for things that can be equated), which is why they are often confused with classes in OO languages. However, whereas in OO languages a class is used to define behavior and also to initialize objects that contain data (state), typeclasses only define an interface. In Haskell, we first create data and then think of the behavior it has. If it can be equated, we make it part of the `Eq` typeclass.
 
 Haskell can automatically make our types part of these typeclasses by using the `deriving` keyword: `Eq`, `Ord`, `Enun`, `Bounded`, `Show`, and `Read`.
+
+#### `Eq`
+
+When deriving the `Eq` instance for a type and comparing using `==` or `/=`, Haskell first checks if the value constructors match, then it compares each pair of fields. However, the types of all the fields have to be a part of the `Eq` typeclass.
