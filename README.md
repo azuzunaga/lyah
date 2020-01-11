@@ -44,6 +44,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Derived Instances](#derived-instances)
       - [Eq](#eq)
       - [Show and Read](#show-and-read)
+      - [Ord](#ord)
 
 ## Starting Out
 
@@ -841,3 +842,22 @@ When deriving the `Eq` instance for a type and comparing using `==` or `/=`, Has
 `Show` and `Read` are for things that can be converted to and from strings. Similarly to the `Eq` typeclass, if a type constructor has fields they have to be part of `Show` and `Read`.
 
 `Show` is used to print types to the terminal, and `Read` converts strings into types. When using the `read` function we have to use a specific type annotation so that Haskell knows which type we want. However, it isn't necessary to specify a type if we use the result of the `read` function in a way that Haskell can infer the type.
+
+#### `Ord`
+
+The `Ord` typeclass is used for types that can be ordered. If two values of the same type but made with different constructors are compared, the value that was made with a constructor that's defined first is considered smaller. Using the `Bool` type to illustrate:
+
+```hs
+data Bool = False | True deriving (Ord)
+```
+
+```hs
+ghci> True `compare` False
+GT
+ghci> True > False
+True
+ghci> True < False
+False
+```
+
+If comparing two values of the same type and the same constructor the values inside them are compared.
