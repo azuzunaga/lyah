@@ -778,6 +778,8 @@ Exporting types is easy, just write them alongside the functions that are being 
 
 You can also not export any constructors and export auxiliary functions that make the data types. This makes the data type more abstract and keeps functions from pattern matching against the constructors.
 
+Algebraic Data Types are called that because they are created by algebraic operations, sum and product. Sum is defined as alternation (`A|B`, meaning `A` or `B` but not both), and product is defined as combination (`A B`, meaning `A` and `B` together).
+
 ### Record Syntax
 
 Record syntax is used when creating data types to make them more descriptive, readable in ghci, and as a bonus it creates attribute reader functions for each field. To use record syntax, declare a data type, open curly braces and inside list all the fields. After each field, a double colon followed by a type designates the type of that field:
