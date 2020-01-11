@@ -43,6 +43,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Type Parameters](#type-parameters)
     - [Derived Instances](#derived-instances)
       - [Eq](#eq)
+      - [Show and Read](#show-and-read)
 
 ## Starting Out
 
@@ -834,3 +835,9 @@ Haskell can automatically make our types part of these typeclasses by using the 
 #### `Eq`
 
 When deriving the `Eq` instance for a type and comparing using `==` or `/=`, Haskell first checks if the value constructors match, then it compares each pair of fields. However, the types of all the fields have to be a part of the `Eq` typeclass.
+
+#### `Show` and `Read`
+
+`Show` and `Read` are for things that can be converted to and from strings. Similarly to the `Eq` typeclass, if a type constructor has fields they have to be part of `Show` and `Read`.
+
+`Show` is used to print types to the terminal, and `Read` converts strings into types. When using the `read` function we have to use a specific type annotation so that Haskell knows which type we want. However, it isn't necessary to specify a type if we use the result of the `read` function in a way that Haskell can infer the type.
