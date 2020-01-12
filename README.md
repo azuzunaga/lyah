@@ -45,6 +45,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
       - [Eq](#eq)
       - [Show and Read](#show-and-read)
       - [Ord](#ord)
+      - [Enum and Bounded](#enum-and-bounded)
 
 ## Starting Out
 
@@ -861,3 +862,26 @@ False
 ```
 
 If comparing two values of the same type and the same constructor the values inside them are compared.
+
+#### `Enum` and `Bounded`
+
+We can use algebraic data types to create types that derive from the `Enum` and `Bounded` typeclasses:
+
+```hs
+data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday
+```
+
+Since all the constructors don't take any parameters (nullary) `Day` can derive from the `Enum` typeclass. This typeclass is for things that have predecesors and succesors. `Day` can also derive from `Bounded`, which is for things that have a max and a min.
+
+With the `Enum` typeclass we can use functions like `succ` or `pred`, and create lists using ranges. With the `Bounded` typeclass we can get the highest and lowest day:
+
+```hs
+ghci> succ Friday
+Saturday
+ghci> pred Thursday
+Wednesday
+ghci> minBound :: Day
+Monday
+ghci> [Friday .. Sunday]
+[Friday,Saturday,Sunday]
+```
