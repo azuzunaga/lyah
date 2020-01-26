@@ -23,16 +23,16 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Let](#let)
     - [Case Expressions](#case-expressions)
   - [Higher Order Functions](#higher-order-functions)
-    - [map and filter](#map-and-filter)
-      - [map](#map)
-      - [filter](#filter)
+    - [`map` and `filter`](#map-and-filter)
+      - [`map`](#map)
+      - [`filter`](#filter)
     - [Lambdas](#lambdas)
     - [Folds](#folds)
-      - [foldl](#foldl)
-      - [foldr](#foldr)
-      - [foldl1 and foldr1](#foldl1-and-foldr1)
-      - [scanr and scanl](#scanr-and-scanl)
-    - [Function Application With $](#function-application-with-)
+      - [`foldl`](#foldl)
+      - [`foldr`](#foldr)
+      - [`foldl1` and `foldr1`](#foldl1-and-foldr1)
+      - [`scanr` and `scanl`](#scanr-and-scanl)
+    - [Function Application With `$`](#function-application-with-)
     - [Function Composition](#function-composition)
   - [Modules](#modules)
     - [Loading Modules](#loading-modules)
@@ -42,10 +42,12 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Record Syntax](#record-syntax)
     - [Type Parameters](#type-parameters)
     - [Derived Instances](#derived-instances)
-      - [Eq](#eq)
-      - [Show and Read](#show-and-read)
-      - [Ord](#ord)
-      - [Enum and Bounded](#enum-and-bounded)
+      - [`Eq`](#eq)
+      - [`Show` and `Read`](#show-and-read)
+      - [`Ord`](#ord)
+      - [`Enum` and `Bounded`](#enum-and-bounded)
+    - [Type Synonyms](#type-synonyms)
+      - [The `Either a b` type](#the-either-a-b-type)
 
 ## Starting Out
 
@@ -885,3 +887,64 @@ Monday
 ghci> [Friday .. Sunday]
 [Friday,Saturday,Sunday]
 ```
+
+### Type Synonyms
+
+Let's see how the types `[Char]` and `String` are equivalent:
+
+```hs
+type String = [Char]
+```
+
+The `type` keyword does not introduce a new type, it just creates an alias for an existing type. This is used for making code more readable and understandable. So for example, if we had a suit of cards, `Ace, King, Queen,...` we could alias it to `Suit` and pass that around in type declarations.
+
+Type synonyms can also be parametrized. So if we had an association list, but wanted to create a type synonym that was general enough to support any value in the list, it would look like this:
+
+```hs
+type AssociationList k v = [(k,v)]
+```
+
+And a function that gets the value from an association list with the key would look like this:
+
+```hs
+getVal :: (Eq k) => k -> AssociationList k v -> Maybe v
+```
+
+`AssociationList` is a type constructor that takes two types and produces a concrete, fully applied type like `AssociationList Int String`.
+
+Parameters and also be partially applied with type constructors. Take for instance a type for a map from integers to something:
+
+```hs
+type IntMap v = Data.Map Int v
+```
+
+Or:
+
+```hs
+type IntMap = Data.Map Int
+```
+
+#### The `Either a b` type
+
+This type takes two parameters and is defined:
+
+```hs
+type Either a b = Left a | Right b deriving (Eq, Ord, Read, Show)
+```
+
+It has two value constructors: If the `Left` is used, then its contents are of type `a` and if the `Right` is used, the contents are of type `b`. This type can be used to encapsulate a value of one type or another, and then when a function we are using gets a value of type `Either a b`, we can pattern match on `Left` or `Right`.
+
+```hs
+ghci> Right 20
+Right 20
+ghci> Left "w00t"
+Left "w00t"
+ghci> :t Left True
+Left True :: Either Bool b
+ghci> :t Right 'a'
+Right 'a' :: Either a Char
+```
+
+Before, we used `Maybe a` to represent the results of a computation that might fail. If the operation was successfult we got a `Just a` and if it failed we got a `Nothing`. But sometimes we need more information than just `Nothing`. We need to know how a computation failed. When that is the case, we can use the type `Either a b` for the result, where `a` is some sort of type that tells us about the failure and `b` is the type of a successful computation. So, errors use the `Left` type constructor and results use the `Right` type constructor.
+
+See the lockers example in http://learnyouahaskell.com/making-our-own-types-and-typeclasses#type-synonyms for code that uses the `Either a b` type.
