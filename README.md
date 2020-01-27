@@ -48,6 +48,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
       - [`Enum` and `Bounded`](#enum-and-bounded)
     - [Type Synonyms](#type-synonyms)
       - [The `Either a b` type](#the-either-a-b-type)
+    - [Recursive Data Structures](#recursive-data-structures)
 
 ## Starting Out
 
@@ -948,3 +949,53 @@ Right 'a' :: Either a Char
 Before, we used `Maybe a` to represent the results of a computation that might fail. If the operation was successfult we got a `Just a` and if it failed we got a `Nothing`. But sometimes we need more information than just `Nothing`. We need to know how a computation failed. When that is the case, we can use the type `Either a b` for the result, where `a` is some sort of type that tells us about the failure and `b` is the type of a successful computation. So, errors use the `Left` type constructor and results use the `Right` type constructor.
 
 See the lockers example in http://learnyouahaskell.com/making-our-own-types-and-typeclasses#type-synonyms for code that uses the `Either a b` type.
+
+### Recursive Data Structures
+
+Like a recursive function, you can use a type definition in its own body to represent a nested structure. For example, implementing a binary search tree (a binary search tree has nodes and branches, all the values to the left of a node are smaller than it, all values to the right are bigger than it. A node can have up to two branches):
+
+```hs
+data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving (Show, Read, Eq)
+```
+
+What the above type declaration says is, a `Tree` can either be an `EmptyTree` or have a `Node` and two `Tree` branches. Either of these branches could either be an `EmptyTree` or a `Node` and two `Tree` branches. All of these new branches could either...
+
+Let's create a function that inserts a new value into a tree in its correct spot. Remember that since Haskell keep state immutable, a new tree will be created after insertion.
+
+First we'll define an utility function to insert only nodes, and then use that in our insertion function:
+
+```hs
+singleton :: a -> Tree a
+singleton x = Node x EmptyTree EmptyTree
+
+treeInsert :: (Ord a) => a -> Tree a -> Tree a
+treeInsert x EmptyTree = singleton x
+treeInsert x (Node a left right)
+    | x == a = Node x left right
+    | x > a  = Node a left (treeInsert x right)
+    | x < a  = Node a (treeInsert x left) right
+```
+
+First we define an edge condition, an empty tree, which is were we want to insert our value. Then we compare the value to insert to values in the tree. If it is the same as the node, we return a tree that is the same, if it is bigger than the node we recursively call the `insertTree` function on the right branch of the tree, if it is smaller than the node, we recursively call the `insertTree` function on the left branch of the tree.
+
+Now let's write a function to check if an element is in a tree:
+
+```hs
+treeElem :: (Ord a) => a -> Tree a -> Bool
+treeElem _ EmptyTree = False
+treeElem x (Node a left right)
+  | x == a = True
+  | x > a  = treeElem x right
+  | x < a  = treeElem x left
+```
+
+First we check for our edge condition, an empty tree. If so, we know our element isn't in it, so we return false. Then we compare the value against the node of the tree. If it matches, return true, if it is bigger or smaller than the node, call `treeElem` on the respective branch of the tree.
+
+Check out how to create a tree from a list:
+
+```hs
+ghci> let nums = [8,6,4,1,7,3,5]
+ghci> let numsTree = foldr treeInsert EmptyTree nums
+ghci> numsTree
+Node 5 (Node 3 (Node 1 EmptyTree EmptyTree) (Node 4 EmptyTree EmptyTree)) (Node 7 (Node 6 EmptyTree EmptyTree) (Node 8 EmptyTree EmptyTree))
+```
