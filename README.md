@@ -49,6 +49,7 @@ Nix setup borrowed from https://github.com/mbbx6spp/effpee.
     - [Type Synonyms](#type-synonyms)
       - [The `Either a b` type](#the-either-a-b-type)
     - [Recursive Data Structures](#recursive-data-structures)
+    - [Typeclasses 102](#typeclasses-102)
 
 ## Starting Out
 
@@ -999,3 +1000,7 @@ ghci> let numsTree = foldr treeInsert EmptyTree nums
 ghci> numsTree
 Node 5 (Node 3 (Node 1 EmptyTree EmptyTree) (Node 4 EmptyTree EmptyTree)) (Node 7 (Node 6 EmptyTree EmptyTree) (Node 8 EmptyTree EmptyTree))
 ```
+
+### Typeclasses 102
+
+Recaping: Typeclasses are like interfaces. A typeclass defines some behavior and the types that can behave in that way are automatically made instances of that typeclass. This behavior is implemented by functions or type declarations. So, when we say a type is a member of a typeclass we mean that we can use the functions of the typeclass with the type.
