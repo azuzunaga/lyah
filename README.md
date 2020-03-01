@@ -1004,3 +1004,13 @@ Node 5 (Node 3 (Node 1 EmptyTree EmptyTree) (Node 4 EmptyTree EmptyTree)) (Node 
 ### Typeclasses 102
 
 Recaping: Typeclasses are like interfaces. A typeclass defines some behavior and the types that can behave in that way are automatically made instances of that typeclass. This behavior is implemented by functions or type declarations. So, when we say a type is a member of a typeclass we mean that we can use the functions of the typeclass with the type.
+
+The `Eq` typeclass is defined like this in the standard prelude:
+
+```hs
+class Eq a where
+    (==) :: a -> a -> Bool
+    (/=) :: a -> a -> Bool
+    x == y = not (x /= y)
+    x /= y = not (x == y)
+```
