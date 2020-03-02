@@ -1014,3 +1014,5 @@ class Eq a where
     x == y = not (x /= y)
     x /= y = not (x == y)
 ```
+
+Breaking this down: `class Eq a where` means we are creating a new typeclass named `Eq`. `a` is the type variable and it means `a` is the type that will be a member of `Eq`. Then we define some functions for the typeclass. The function bodies themselves are not mandatory, just the type declarations.
