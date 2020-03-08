@@ -1016,3 +1016,17 @@ class Eq a where
 ```
 
 Breaking this down: `class Eq a where` means we are creating a new typeclass named `Eq`. `a` is the type variable and it means `a` is the type that will be a member of `Eq`. Then we define some functions for the typeclass. The function bodies themselves are not mandatory, just the type declarations.
+
+Since we implemented `==` and `!=` in terms of each other, when we derive or create a type instance of the `Eq` typeclass we only have to override one of them. That is called the minimal complete definition for the typeclass.
+
+So if we had street lights that we wanted to be instances of the `Eq` typeclass we could do it this way:
+
+```hs
+data TrafficLight = Red | Yellow | Green
+
+instance Eq TrafficLight where
+    Red == Red = True
+    Yellow == Yellow = True
+    Green == Green = True
+    _ == _ = False
+```
