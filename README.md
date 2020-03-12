@@ -1019,6 +1019,16 @@ Breaking this down: `class Eq a where` means we are creating a new typeclass nam
 
 Since we implemented `==` and `!=` in terms of each other, when we derive or create a type instance of the `Eq` typeclass we only have to override one of them. That is called the minimal complete definition for the typeclass.
 
+If we had defined `Eq` like this:
+
+```hs
+class Eq a where
+    (==) :: a -> a -> Bool
+    (!=) :: a -> a -> Bool
+```
+
+We would've had to implement both functions when deriving instances, since Haskell doesn't know how they are related.
+
 So if we had street lights that we wanted to be instances of the `Eq` typeclass we could do it this way:
 
 ```hs
