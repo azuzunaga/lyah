@@ -1040,3 +1040,12 @@ instance Eq TrafficLight where
     Green == Green = True
     _ == _ = False
 ```
+
+We can use this approach to derive from `Show`. Usually, deriving from `Show` will just print out the constructors, but if we want a custom string we need to do it by hand:
+
+```hs
+instance Show TrafficLight where
+    show Red = "Red Light"
+    show Yellow = "Yellow Light"
+    show Green = "Green Light"
+```
