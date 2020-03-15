@@ -1049,3 +1049,12 @@ instance Show TrafficLight where
     show Yellow = "Yellow Light"
     show Green = "Green Light"
 ```
+
+You can also make typeclasses that are subclasses of other typeclasses. Check out the first part of the class declaration for `Num`:
+
+```hs
+class (Eq a) => Num a where
+    ...
+```
+
+Class constraints can be put in a lot of different places. The above is like saying `class Num a where`, only that we also say that the type `a` has to be an instance of `Eq`.
